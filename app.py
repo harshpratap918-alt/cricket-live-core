@@ -3,46 +3,33 @@ import requests
 
 app = Flask(__name__)
 
-# Verified API Key and Host
-RAPID_API_KEY = "c83e887053mshb3e304f84916276p1e8976jsn4ead0beaafab"
-RAPID_API_HOST = "free-cricbuzz-cricket-api.p.rapidapi.com"
-
 @app.route('/')
 def index():
-    url = f"https://{RAPID_API_HOST}/matches/list"
-    headers = {
-        "X-RapidAPI-Key": RAPID_API_KEY,
-        "X-RapidAPI-Host": RAPID_API_HOST
-    }
-    
-    # Backup data (Default)
+    # Emergency Backup Data
     match_info = {
-        "title": "Core Sports Live",
-        "status": "Stadium se connect ho raha hai...",
-        "score": "Please Refresh in 1 minute"
+        "title": "Core Sports News",
+        "status": "Live Scores Updating...",
+        "score": "Please Refresh in a moment"
     }
     
+    # Sirf ye 4 lines check karega, agar error aaya toh seedha match_info dikhayega
     try:
-        response = requests.get(url, headers=headers, timeout=10)
-        
+        url = "https://free-cricbuzz-cricket-api.p.rapidapi.com/matches/list"
+        headers = {
+            "X-RapidAPI-Key": "c83e887053mshb3e304f84916276p1e8976jsn4ead0beaafab",
+            "X-RapidAPI-Host": "free-cricbuzz-cricket-api.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
             data = response.json()
-            match_list = data.get('matchList', [])
-            
-            if match_list:
-                # Sabse pehle live match dhoondhna
-                m = next((match for match in match_list if match.get('state') == 'live'), match_list[0])
-                
-                match_info["title"] = m.get("seriesName", "Core Sports News")
-                match_info["status"] = m.get("status", "Updating Scores...")
-                match_info["score"] = f"{m.get('matchDesc', '')} {m.get('matchFormat', '')}"
-            else:
-                match_info["status"] = "Abhi koi Match nahi hai"
-        else:
-            match_info["status"] = "API Busy - Please Refresh"
-            
-    except Exception as e:
-        match_info["status"] = "Core Sports: Connecting..."
+            m_list = data.get('matchList', [])
+            if m_list:
+                m = m_list[0]
+                match_info["title"] = m.get("seriesName", "Core Sports")
+                match_info["status"] = m.get("status", "Live")
+                match_info["score"] = f"{m.get('matchDesc', '')}"
+    except:
+        pass # Error aane par bhi website crash nahi hogi
 
     return render_template('index.html', match=match_info)
 
