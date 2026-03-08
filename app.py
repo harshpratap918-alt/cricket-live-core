@@ -3,23 +3,27 @@ import requests
 
 app = Flask(__name__)
 
-def get_live_scores():
+def get_cricket_data():
     try:
-        # Professional Cricket API
-        url = "https://cricket-api-unofficial.vercel.app/live"
+        # 'all' endpoint se live aur purane dono matches milte hain
+        url = "https://cricket-api-unofficial.vercel.app/all"
         response = requests.get(url, timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            if data.get('status') == 'success' and data.get('matches'):
-                return data['matches']
-        return []
+        data = response.json()
+        
+        if data.get('status') == 'success':
+            matches = data.get('matches', [])
+            live_matches = [m for m in matches if m['status'] == 'live']
+            # Pichle 5 matches ka status nikalna
+            old_matches = [m for m in matches if m['status'] == 'completed'][:5]
+            return live_matches, old_matches
+        return [], []
     except:
-        return []
+        return [], []
 
 @app.route('/')
 def index():
-    matches = get_live_scores()
-    return render_template('index.html', matches=matches)
+    live, old = get_cricket_data()
+    return render_template('index.html', live_matches=live, old_matches=old)
 
 if __name__ == '__main__':
     app.run()
