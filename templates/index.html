@@ -1,52 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Sports 24x7 | Live Scores</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
-        .navbar { background: #06173d; color: white; padding: 15px; text-align: center; border-bottom: 4px solid #e41b23; }
-        .container { max-width: 600px; margin: 20px auto; padding: 10px; }
-        .match-card { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; overflow: hidden; border-left: 6px solid #e41b23; }
-        .live-tag { background: #e41b23; color: white; padding: 4px 12px; font-size: 12px; font-weight: bold; border-radius: 4px; display: inline-block; margin: 15px 15px 0; }
-        .match-info { padding: 15px; text-align: center; }
-        .match-title { color: #666; font-size: 14px; margin-bottom: 10px; }
-        .score { font-size: 26px; font-weight: bold; color: #06173d; margin: 10px 0; }
-        .status { color: #e41b23; font-weight: bold; font-size: 14px; margin-top: 5px; }
-        .no-match { text-align: center; padding: 50px; background: white; border-radius: 12px; }
-        .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
-    </style>
-</head>
-<body>
-    <div class="navbar">
-        <h1>CORE SPORTS 24x7</h1>
-    </div>
+<div class="container">
+    <h1 style="color: #06173d;">CORE SPORTS 24x7</h1>
 
-    <div class="container">
-        {% if matches %}
-            {% for match in matches %}
-            <div class="match-card">
-                <div class="live-tag">LIVE</div>
-                <div class="match-info">
-                    <div class="match-title">{{ match.title }}</div>
-                    <div class="score">{{ match.current_score }}</div>
-                    <div class="status">{{ match.status_text }}</div>
-                </div>
+    {% if live_matches %}
+        <h2 style="color: #e41b23;">🔴 LIVE NOW</h2>
+        {% for match in live_matches %}
+        <div class="match-card" style="border-left: 6px solid #e41b23;">
+            <div class="match-info">
+                <h3>{{ match.title }}</h3>
+                <div class="score" style="color: #e41b23;">{{ match.current_score }}</div>
+                <div class="status">{{ match.status_text }}</div>
             </div>
-            {% endfor %}
-        {% else %}
-            <div class="no-match">
-                <h3>No Live Matches</h3>
-                <p>Abhi koi international match live nahi hai. Agle match ke liye refresh karein!</p>
-                <button onclick="location.reload()" style="background: #06173d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Refresh Score</button>
-            </div>
-        {% endif %}
-
-        <div class="footer">
-            <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
-            <p>Total Visitors | Harsh Pratap Singh Chouhan</p>
         </div>
+        {% endfor %}
+    {% endif %}
+
+    <hr style="margin: 30px 0; border: 1px solid #ccc;">
+
+    <h2 style="color: #666;">Recent Match Results (Purana Status)</h2>
+    {% if old_matches %}
+        {% for match in old_matches %}
+        <div class="match-card" style="border-left: 6px solid #94a3b8; opacity: 0.9;">
+            <div class="match-info">
+                <h4 style="margin: 0; color: #334155;">{{ match.title }}</h4>
+                <p style="font-size: 14px; color: #475569; margin: 5px 0;">{{ match.status_text }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Koi purana record abhi available nahi hai.</p>
+    {% endif %}
+
+    <div class="footer">
+        <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
+        <p>Harsh Pratap Singh Chouhan | Bikaner Technical University</p>
     </div>
-</body>
-</html>
+</div>
