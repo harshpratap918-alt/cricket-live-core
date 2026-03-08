@@ -3,24 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Sports Live</title>
+    <title>Core Sports Live - Harsh Chouhan</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background-color: #eef2f3; padding: 50px; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.15); display: inline-block; min-width: 320px; border-top: 5px solid #d32f2f; }
-        h1 { color: #d32f2f; margin-bottom: 5px; }
-        .brand { font-size: 14px; color: #777; margin-bottom: 20px; font-weight: bold; text-transform: uppercase; }
-        .score { font-size: 26px; font-weight: bold; margin: 15px 0; color: #333; }
-        .status { color: #2e7d32; font-weight: 500; background: #e8f5e9; padding: 5px 10px; border-radius: 5px; display: inline-block; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid #d32f2f; }
+        h1 { color: #d32f2f; margin: 10px 0; font-size: 28px; }
+        .format-badge { background: #333; color: white; padding: 5px 15px; border-radius: 50px; font-size: 12px; display: inline-block; margin-bottom: 20px; }
+        .match-title { font-size: 22px; font-weight: bold; color: #1a1a1a; margin-bottom: 10px; }
+        .score-box { background: #fff5f5; padding: 20px; border-radius: 15px; border: 1px dashed #d32f2f; margin: 20px 0; }
+        .score-text { font-size: 24px; color: #d32f2f; font-weight: bold; }
+        .status { color: #2e7d32; font-weight: bold; font-size: 14px; }
+        .footer { margin-top: 30px; font-size: 12px; color: #777; }
+        .counter { margin-top: 15px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Core Sports News</h1>
-        <div class="brand">Network by Harsh Chouhan</div>
-        <hr>
-        <div class="score">{{ match.title }}</div>
-        <div class="score" style="color: #1976d2;">{{ match.score }}</div>
-        <div class="status">{{ match.status }}</div>
+    <div class="container">
+        <h1>Core Sports 24x7</h1>
+        <div class="format-badge">{{ match.format }}</div>
+        
+        <div class="match-title">{{ match.title }}</div>
+        
+        <div class="score-box">
+            <div class="score-text">{{ match.score }}</div>
+        </div>
+        
+        <div class="status">{{ match.full_status }}</div>
+
+        <div class="footer">
+            <p>Developed by Harsh Pratap Singh Chouhan</p>
+            <div class="counter">
+                <p>Total Visitors</p>
+                <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" title="Free Counter" border="0" />
+            </div>
+        </div>
     </div>
 </body>
 </html>
