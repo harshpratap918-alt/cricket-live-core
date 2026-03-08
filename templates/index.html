@@ -1,27 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Sports 24x7 | ICC Style Live</title>
+    <title>Core Sports 24x7 | Live Scores</title>
     <style>
-        :root { --icc-blue: #06173d; --icc-red: #e41b23; --icc-gray: #f4f5f7; }
-        body { font-family: 'Arial', sans-serif; background: var(--icc-gray); margin: 0; padding: 0; }
-        .header { background: var(--icc-blue); color: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--icc-red); }
-        .container { max-width: 800px; margin: 20px auto; padding: 10px; }
-        .match-card { background: white; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; overflow: hidden; }
-        .match-header { background: #f9f9f9; padding: 10px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
-        .live-badge { background: var(--icc-red); color: white; padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
-        .match-body { padding: 20px; text-align: center; }
-        .match-title { font-size: 14px; color: #666; margin-bottom: 10px; }
-        .score-display { font-size: 28px; font-weight: bold; color: var(--icc-blue); margin: 15px 0; }
-        .status-text { color: var(--icc-red); font-size: 14px; font-weight: bold; }
-        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
-        .no-match { padding: 40px; text-align: center; background: white; border-radius: 8px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+        .navbar { background: #06173d; color: white; padding: 15px; text-align: center; border-bottom: 4px solid #e41b23; }
+        .container { max-width: 600px; margin: 20px auto; padding: 10px; }
+        .match-card { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; overflow: hidden; border-left: 6px solid #e41b23; }
+        .live-tag { background: #e41b23; color: white; padding: 4px 12px; font-size: 12px; font-weight: bold; border-radius: 4px; display: inline-block; margin: 15px 15px 0; }
+        .match-info { padding: 15px; text-align: center; }
+        .match-title { color: #666; font-size: 14px; margin-bottom: 10px; }
+        .score { font-size: 26px; font-weight: bold; color: #06173d; margin: 10px 0; }
+        .status { color: #e41b23; font-weight: bold; font-size: 14px; margin-top: 5px; }
+        .no-match { text-align: center; padding: 50px; background: white; border-radius: 12px; }
+        .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
     </style>
 </head>
 <body>
-    <div class="header">
+    <div class="navbar">
         <h1>CORE SPORTS 24x7</h1>
     </div>
 
@@ -29,28 +27,25 @@
         {% if matches %}
             {% for match in matches %}
             <div class="match-card">
-                <div class="match-header">
-                    <span class="live-badge">Live</span>
-                    <span style="font-size: 12px; color: #888;">{{ match.title.split(',')[0] }}</span>
-                </div>
-                <div class="match-body">
+                <div class="live-tag">LIVE</div>
+                <div class="match-info">
                     <div class="match-title">{{ match.title }}</div>
-                    <div class="score-display">{{ match.current_score }}</div>
-                    <div class="status-text">{{ match.status_text }}</div>
+                    <div class="score">{{ match.current_score }}</div>
+                    <div class="status">{{ match.status_text }}</div>
                 </div>
             </div>
             {% endfor %}
         {% else %}
             <div class="no-match">
-                <h3>No Matches Live Currently</h3>
-                <p>India vs Australia Women's Test and other matches will appear here once they start.</p>
-                <button onclick="location.reload()" style="background: var(--icc-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Refresh Score</button>
+                <h3>No Live Matches</h3>
+                <p>Abhi koi international match live nahi hai. Agle match ke liye refresh karein!</p>
+                <button onclick="location.reload()" style="background: #06173d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Refresh Score</button>
             </div>
         {% endif %}
 
         <div class="footer">
-            <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" border="0" />
-            <p>© 2026 Core News Network | Harsh Pratap Singh Chouhan</p>
+            <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
+            <p>Total Visitors | Harsh Pratap Singh Chouhan</p>
         </div>
     </div>
 </body>
