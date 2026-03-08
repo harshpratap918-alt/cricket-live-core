@@ -3,39 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Sports Live - Harsh Chouhan</title>
+    <title>Core Sports Live</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; text-align: center; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid #d32f2f; }
-        h1 { color: #d32f2f; margin: 10px 0; font-size: 28px; }
-        .format-badge { background: #333; color: white; padding: 5px 15px; border-radius: 50px; font-size: 12px; display: inline-block; margin-bottom: 20px; }
-        .match-title { font-size: 22px; font-weight: bold; color: #1a1a1a; margin-bottom: 10px; }
-        .score-box { background: #fff5f5; padding: 20px; border-radius: 15px; border: 1px dashed #d32f2f; margin: 20px 0; }
-        .score-text { font-size: 24px; color: #d32f2f; font-weight: bold; }
-        .status { color: #2e7d32; font-weight: bold; font-size: 14px; }
-        .footer { margin-top: 30px; font-size: 12px; color: #777; }
-        .counter { margin-top: 15px; }
+        body { font-family: Arial, sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
+        .card { background: #1e293b; max-width: 400px; margin: auto; padding: 20px; border-radius: 15px; border-bottom: 5px solid #ef4444; }
+        .live-tag { background: #ef4444; padding: 20px 10px; border-radius: 5px; font-size: 12px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        h1 { font-size: 20px; margin: 10px 0; }
+        .score { font-size: 32px; font-weight: bold; color: #facc15; margin: 15px 0; }
+        .status { color: #94a3b8; font-style: italic; }
+        .footer { margin-top: 20px; font-size: 10px; color: #64748b; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Core Sports 24x7</h1>
-        <div class="format-badge">{{ match.format }}</div>
-        
-        <div class="match-title">{{ match.title }}</div>
-        
-        <div class="score-box">
-            <div class="score-text">{{ match.score }}</div>
-        </div>
-        
-        <div class="status">{{ match.full_status }}</div>
-
-        <div class="footer">
-            <p>Developed by Harsh Pratap Singh Chouhan</p>
-            <div class="counter">
-                <p>Total Visitors</p>
-                <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" title="Free Counter" border="0" />
-            </div>
+    <div class="card">
+        <div class="live-tag">{{ match.format }}</div>
+        <h1>{{ match.title }}</h1>
+        <div class="score">{{ match.score }}</div>
+        <div class="status">{{ match.status }}</div>
+        <div class="footer">Core News 24x7 | Harsh Pratap Singh</div>
+        <div style="margin-top:15px;">
+            <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" border="0" />
         </div>
     </div>
 </body>
