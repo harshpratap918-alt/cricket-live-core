@@ -1,38 +1,42 @@
 from flask import Flask, render_template
-import requests
+from pycricbuzz import Cricbuzz
 
 app = Flask(__name__)
+c = Cricbuzz()
+
+def get_live_match_data():
+    try:
+        all_matches = c.matches()
+        # Hum saare matches check karenge jo abhi chal rahe hain
+        for match in all_matches:
+            # Agar match live hai, ya break chal raha hai, ya stumps hue hain
+            if match['mchstate'] in ['live', 'innings break', 'lunch', 'tea', 'stumps', 'toss']:
+                return {
+                    'title': f"{match['team1']['name']} vs {match['team2']['name']}",
+                    'format': match['type'],
+                    'score': match.get('status', 'Score Updating...'),
+                    'full_status': f"Match State: {match['mchstate'].upper()}"
+                }
+        
+        # Agar koi match live nahi hai toh aakhri khatam hua match dikhao
+        return {
+            'title': "No Live Match Currently",
+            'format': "Core Sports News",
+            'score': "Next match starting soon!",
+            'full_status': "Stay tuned for updates"
+        }
+    except Exception as e:
+        return {
+            'title': "Network Busy",
+            'format': "Error",
+            'score': "Please refresh the page",
+            'full_status': str(e)
+        }
 
 @app.route('/')
 def index():
-    # Default information
-    match_info = {
-        "title": "Core Sports News",
-        "status": "Live Match Updating...",
-        "score": "Please Refresh"
-    }
-    
-    try:
-        url = "https://free-cricbuzz-cricket-api.p.rapidapi.com/matches/list"
-        headers = {
-            "X-RapidAPI-Key": "c83e887053mshb3e304f84916276p1e8976jsn4ead0beaafab",
-            "X-RapidAPI-Host": "free-cricbuzz-cricket-api.p.rapidapi.com"
-        }
-        # Timeout ko 5 second rakha hai taaki crash na ho
-        response = requests.get(url, headers=headers, timeout=5)
-        
-        if response.status_code == 200:
-            data = response.json()
-            m_list = data.get('matchList', [])
-            if m_list:
-                m = m_list[0]
-                match_info["title"] = str(m.get("seriesName", "Core Sports"))
-                match_info["status"] = str(m.get("status", "Live"))
-                match_info["score"] = str(m.get("matchDesc", "Score Updating"))
-    except Exception as e:
-        print(f"Error: {e}")
-
+    match_info = get_live_match_data()
     return render_template('index.html', match=match_info)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
