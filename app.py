@@ -1,25 +1,22 @@
 from flask import Flask, render_template
 import requests
+import os
 
 app = Flask(__name__)
 
 def get_scores():
-    # Source 1: Main API
-    urls = [
-        "https://cricket-api-unofficial.vercel.app/live",
-        "https://api.cricapi.com/v1/currentMatches?apikey=YOUR_FREE_KEY&offset=0" # Backup (Optional)
-    ]
-    
-    for url in urls:
-        try:
-            response = requests.get(url, timeout=5)
-            if response.status_code == 200:
-                data = response.json()
-                if data.get('status') == 'success' and data.get('matches'):
-                    return data['matches']
-        except:
-            continue
-    return []
+    try:
+        # Stable API URL
+        url = "https://cricket-api-unofficial.vercel.app/live"
+        # Timeout ko 15 second kar diya hai taaki slow net pe crash na ho
+        response = requests.get(url, timeout=15)
+        if response.status_code == 200:
+            data = response.json()
+            return data.get('matches', [])
+        return []
+    except Exception as e:
+        print(f"Connection Error: {e}")
+        return []
 
 @app.route('/')
 def index():
@@ -27,4 +24,6 @@ def index():
     return render_template('index.html', matches=matches)
 
 if __name__ == '__main__':
-    app.run()
+    # Render ke liye port set karna zaruri hai
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
