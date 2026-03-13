@@ -3,64 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORE SPORTS 24x7</title>
+    <title>CORE SPORTS 24x7 | All-in-One</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; text-align: center; }
-        .nav { background: #06173d; color: white; padding: 20px; font-weight: bold; font-size: 24px; border-bottom: 4px solid #e41b23; }
-        .container { max-width: 600px; margin: 20px auto; padding: 15px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+        .nav { background: #06173d; color: white; padding: 15px; text-align: center; border-bottom: 4px solid #e41b23; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 600px; margin: auto; padding: 15px; }
         
-        /* Video Section */
-        .video-container { background: #1e293b; padding: 15px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        /* 1. Live Score Cards */
+        .match-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-left: 5px solid #06173d; text-align: left; }
+        
+        /* 2. Video Highlights Section */
+        .video-box { background: #1e293b; padding: 15px; border-radius: 15px; margin: 25px 0; color: white; }
         iframe { width: 100%; height: 300px; border-radius: 10px; border: none; }
-        .section-title { color: #facc15; margin-top: 10px; font-size: 18px; }
 
-        /* Photo Gallery */
-        .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .photo-card { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .photo-card img { width: 100%; border-radius: 5px; height: 120px; object-fit: cover; }
-        .photo-caption { font-size: 12px; font-weight: bold; margin-top: 5px; color: #333; }
+        /* 3. Classic Photo Gallery */
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .photo-card { background: white; padding: 5px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .photo-card img { width: 100%; height: 130px; object-fit: cover; border-radius: 5px; }
 
-        /* Store Section */
-        .store-box { background: #111; color: white; padding: 20px; border-radius: 15px; margin-top: 30px; border: 2px solid #facc15; }
-        .buy-btn { background: #facc15; color: black; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block; margin-top: 10px; font-size: 12px; }
+        /* 4. Core Store Section */
+        .store-section { background: #111; color: #fff; padding: 20px; border-radius: 15px; border: 2px solid #facc15; }
+        .buy-btn { background: #facc15; color: black; padding: 8px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block; margin-top: 10px; font-size: 12px; }
         
-        .footer { margin-top: 40px; color: #94a3b8; font-size: 12px; }
+        .footer { text-align: center; padding: 30px; color: #888; font-size: 12px; }
     </style>
 </head>
 <body>
-    <div class="nav">CORE SPORTS 24x7</div>
+
+    <div class="nav"><h1>CORE SPORTS 24x7</h1></div>
 
     <div class="container">
-        <div class="video-container">
-            <h3 class="section-title">📺 Match Highlights</h3>
+        
+        <h3 style="color: #06173d;">🏏 Live Scorecard</h3>
+        {% if matches %}
+            {% for m_type in matches %}
+                {% for series in m_type.seriesMatches %}
+                    {% if series.seriesAdWrapper %}
+                    <div class="match-card">
+                        <div style="font-size: 11px; color: #e41b23; font-weight: bold;">{{ m_type.matchType }}</div>
+                        <div style="font-size: 16px; font-weight: bold; margin: 5px 0;">{{ series.seriesAdWrapper.seriesName }}</div>
+                        <div style="font-size: 12px; color: #666;">Check highlights below for full details!</div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p style="background: white; padding: 20px; border-radius: 10px;">Updating from Stadium...</p>
+        {% endif %}
+
+        <hr>
+
+        <div class="video-box">
+            <h3 style="color: #facc15; margin-top: 0;">🎥 Match Highlights</h3>
             <iframe src="https://www.youtube.com/embed/SZwvwFet4C8" allowfullscreen></iframe>
-            <p style="color: #cbd5e1; font-size: 14px;">GT vs RR 2023 - Thrilling Finish!</p>
+            <p style="font-size: 14px; margin-top: 10px;">Watch latest match action here!</p>
         </div>
 
-        <h3 style="text-align: left; color: #06173d;">📸 Classic Moments</h3>
-        <div class="gallery">
+        <h3 style="color: #06173d; text-align: left;">📸 Classic Moments</h3>
+        <div class="gallery-grid">
             <div class="photo-card">
                 <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_1280,q_70/lsci/db/PICTURES/CMS/319900/319932.6.jpg">
-                <div class="photo-caption">MS Dhoni</div>
+                <p style="font-size: 11px; font-weight: bold;">Legend Dhoni</p>
             </div>
             <div class="photo-card">
                 <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_1280,q_70/lsci/db/PICTURES/CMS/348100/348108.6.jpg">
-                <div class="photo-caption">Virat Kohli</div>
+                <p style="font-size: 11px; font-weight: bold;">King Kohli</p>
             </div>
         </div>
 
-        <div class="store-box">
-            <h2 style="color: #facc15; margin: 0 0 15px 0;">🛒 CORE STORE</h2>
+        <div class="store-section">
+            <h3 style="color: #facc15; margin-top: 0;">🛒 CORE CRICKET STORE</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div style="background: #222; padding: 10px; border-radius: 10px;">
+                <div style="background: #222; padding: 10px; border-radius: 10px; text-align: center;">
                     <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 100%; height: 100px; object-fit: contain;">
-                    <p style="font-size: 12px;">Pro Bat</p>
-                    <a href="#" class="buy-btn">VIEW DEAL</a>
+                    <p style="font-size: 12px;">Cricket Bat</p>
+                    <a href="APKI_AMAZON_LINK" class="buy-btn">VIEW DEAL</a>
                 </div>
-                <div style="background: #222; padding: 10px; border-radius: 10px;">
+                <div style="background: #222; padding: 10px; border-radius: 10px; text-align: center;">
                     <img src="https://m.media-amazon.com/images/I/61r56kFvB2L._SX679_.jpg" style="width: 100%; height: 100px; object-fit: contain;">
-                    <p style="font-size: 12px;">Season Ball</p>
-                    <a href="#" class="buy-btn">VIEW DEAL</a>
+                    <p style="font-size: 12px;">Cricket Ball</p>
+                    <a href="APKI_AMAZON_LINK" class="buy-btn">VIEW DEAL</a>
                 </div>
             </div>
         </div>
@@ -69,6 +91,7 @@
             <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
             <p>© 2026 Core News Network | Harsh Pratap Singh Chouhan</p>
         </div>
+
     </div>
 </body>
 </html>
