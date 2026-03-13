@@ -3,81 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Sports 24x7 | Live Scores & Photos</title>
+    <title>Core Sports 24x7 | Live Score</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
-        .nav { background: #06173d; color: white; padding: 15px; text-align: center; border-bottom: 4px solid #e41b23; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
+        .header { background: #06173d; color: white; padding: 20px; text-align: center; border-bottom: 5px solid #e41b23; }
         .container { max-width: 600px; margin: 20px auto; padding: 10px; }
         
-        /* Match Card Style */
-        .match-card { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px; overflow: hidden; }
-        .match-header { background: #f9f9f9; padding: 10px 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; font-size: 12px; color: #666; }
-        .live-tag { background: #e41b23; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
-        
-        /* Team & Score Section */
-        .match-body { padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .team-row { display: flex; align-items: center; justify-content: space-between; width: 100%; margin: 10px 0; }
-        .team-info { display: flex; align-items: center; gap: 10px; }
-        
-        /* Team Logo Style */
-        .team-logo { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; background: #fff; }
-        .team-name { font-size: 18px; font-weight: bold; color: #333; }
-        .team-score { font-size: 20px; font-weight: bold; color: #06173d; }
-        
-        .status { color: #e41b23; font-weight: bold; font-size: 14px; margin-top: 15px; text-align: center; }
-        .no-match { text-align: center; padding: 50px; background: white; border-radius: 12px; }
-        .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
+        /* Highlights Button */
+        .btn-highlights {
+            display: block; background: #e41b23; color: white; text-align: center;
+            padding: 15px; margin-bottom: 25px; border-radius: 12px;
+            text-decoration: none; font-weight: bold; font-size: 20px;
+            box-shadow: 0 4px 15px rgba(228, 27, 35, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .match-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-left: 6px solid #06173d; }
+        .match-type { font-size: 12px; color: #777; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+        .series-name { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 10px; }
+        .status-text { color: #e41b23; font-weight: bold; font-size: 14px; }
+        .footer { text-align: center; padding: 30px; color: #888; font-size: 12px; }
     </style>
 </head>
 <body>
-    <div class="nav">
+
+    <div class="header">
         <h1>CORE SPORTS 24x7</h1>
     </div>
 
     <div class="container">
+        <a href="/highlights" class="btn-highlights">🎥 WATCH MATCH HIGHLIGHTS</a>
+
+        <h2 style="color: #06173d; margin-left: 10px;">Recent Match Updates</h2>
+
         {% if matches %}
-            {% for match in matches %}
-            <div class="match-card">
-                <div class="match-header">
-                    <div>{{ match.matchType }} | {{ match.seriesName }}</div>
-                    <div class="live-tag">LIVE</div>
-                </div>
-                
-                <div class="match-body">
-                    <div class="team-row">
-                        <div class="team-info">
-                            <img src="{{ match.team1Logo }}" alt="{{ match.team1Name }}" class="team-logo" onerror="this.src='https://via.placeholder.com/35?text=T1';">
-                            <span class="team-name">{{ match.team1Name }}</span>
-                        </div>
-                        <div class="team-score">{{ match.team1Score }}</div>
+            {% for match_group in matches %}
+                {% for match in match_group.seriesMatches %}
+                    {% if match.seriesAdWrapper %}
+                    <div class="match-card">
+                        <div class="match-type">{{ match_group.matchType }}</div>
+                        <div class="series-name">{{ match.seriesAdWrapper.seriesName }}</div>
+                        <div class="status-text">Live/Recent Status available in Highlights!</div>
                     </div>
-                    
-                    <div style="font-size: 14px; color: #999; margin: 5px 0;">vs</div>
-                    
-                    <div class="team-row">
-                        <div class="team-info">
-                            <img src="{{ match.team2Logo }}" alt="{{ match.team2Name }}" class="team-logo" onerror="this.src='https://via.placeholder.com/35?text=T2';">
-                            <span class="team-name">{{ match.team2Name }}</span>
-                        </div>
-                        <div class="team-score">{{ match.team2Score }}</div>
-                    </div>
-                    
-                    <div class="status">{{ match.status }}</div>
-                </div>
-            </div>
+                    {% endif %}
+                {% endfor %}
             {% endfor %}
         {% else %}
-            <div class="no-match">
-                <h3>Connecting to Stadium...</h3>
-                <p>Abhi koi match live nahi hai ya data load ho raha hai. Kuch der baad refresh karein!</p>
-                <button onclick="location.reload()" style="background: #06173d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Refresh Score</button>
+            <div style="text-align: center; padding: 40px; background: white; border-radius: 15px;">
+                <p>Updating scores from stadium... Please refresh.</p>
             </div>
         {% endif %}
 
         <div class="footer">
             <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
-            <p>Total Visitors | Harsh Pratap Singh Chouhan</p>
+            <p>© 2026 Core News Network | Harsh Pratap Singh Chouhan</p>
         </div>
     </div>
+
 </body>
 </html>
