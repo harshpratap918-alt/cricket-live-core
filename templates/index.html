@@ -6,51 +6,67 @@
     <title>CORE SPORTS 24x7</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; text-align: center; }
-        .nav { background: #06173d; color: white; padding: 20px; font-weight: bold; font-size: 24px; }
+        .nav { background: #06173d; color: white; padding: 20px; font-weight: bold; font-size: 24px; border-bottom: 4px solid #e41b23; }
         .container { max-width: 600px; margin: 20px auto; padding: 15px; }
         
-        .highlights-btn {
-            display: block; background: #e41b23; color: white; padding: 15px;
-            text-decoration: none; border-radius: 12px; font-weight: bold;
-            font-size: 18px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(228, 27, 35, 0.3);
-        }
+        /* Video Section */
+        .video-container { background: #1e293b; padding: 15px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        iframe { width: 100%; height: 300px; border-radius: 10px; border: none; }
+        .section-title { color: #facc15; margin-top: 10px; font-size: 18px; }
 
-        .match-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-left: 6px solid #06173d; text-align: left; }
-        .series-name { font-size: 16px; font-weight: bold; color: #334155; }
-        .match-desc { font-size: 14px; color: #64748b; margin-top: 5px; }
-        .status { color: #e41b23; font-weight: bold; font-size: 13px; margin-top: 10px; }
+        /* Photo Gallery */
+        .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .photo-card { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .photo-card img { width: 100%; border-radius: 5px; height: 120px; object-fit: cover; }
+        .photo-caption { font-size: 12px; font-weight: bold; margin-top: 5px; color: #333; }
+
+        /* Store Section */
+        .store-box { background: #111; color: white; padding: 20px; border-radius: 15px; margin-top: 30px; border: 2px solid #facc15; }
+        .buy-btn { background: #facc15; color: black; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block; margin-top: 10px; font-size: 12px; }
         
-        .footer { margin-top: 40px; color: #94a3b8; font-size: 12px; padding-bottom: 20px; }
+        .footer { margin-top: 40px; color: #94a3b8; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="nav">CORE SPORTS 24x7</div>
 
     <div class="container">
-        <a href="/highlights" class="highlights-btn">🎥 WATCH MATCH HIGHLIGHTS</a>
+        <div class="video-container">
+            <h3 class="section-title">📺 Match Highlights</h3>
+            <iframe src="https://www.youtube.com/embed/SZwvwFet4C8" allowfullscreen></iframe>
+            <p style="color: #cbd5e1; font-size: 14px;">GT vs RR 2023 - Thrilling Finish!</p>
+        </div>
 
-        <h3 style="text-align: left; color: #06173d; margin-left: 5px;">Recent Match Updates</h3>
-
-        {% if matches %}
-            {% for match_type in matches %}
-                {% for series in match_type.seriesMatches %}
-                    {% if series.seriesAdWrapper %}
-                    <div class="match-card">
-                        <div style="font-size: 10px; color: #94a3b8; margin-bottom: 5px;">{{ match_type.matchType }}</div>
-                        <div class="series-name">{{ series.seriesAdWrapper.seriesName }}</div>
-                        <div class="status">LIVE / RECENT STATUS IN HIGHLIGHTS</div>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-        {% else %}
-            <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <p>Connecting to Stadium... Please Refresh.</p>
+        <h3 style="text-align: left; color: #06173d;">📸 Classic Moments</h3>
+        <div class="gallery">
+            <div class="photo-card">
+                <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_1280,q_70/lsci/db/PICTURES/CMS/319900/319932.6.jpg">
+                <div class="photo-caption">MS Dhoni</div>
             </div>
-        {% endif %}
+            <div class="photo-card">
+                <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_1280,q_70/lsci/db/PICTURES/CMS/348100/348108.6.jpg">
+                <div class="photo-caption">Virat Kohli</div>
+            </div>
+        </div>
+
+        <div class="store-box">
+            <h2 style="color: #facc15; margin: 0 0 15px 0;">🛒 CORE STORE</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div style="background: #222; padding: 10px; border-radius: 10px;">
+                    <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 100%; height: 100px; object-fit: contain;">
+                    <p style="font-size: 12px;">Pro Bat</p>
+                    <a href="#" class="buy-btn">VIEW DEAL</a>
+                </div>
+                <div style="background: #222; padding: 10px; border-radius: 10px;">
+                    <img src="https://m.media-amazon.com/images/I/61r56kFvB2L._SX679_.jpg" style="width: 100%; height: 100px; object-fit: contain;">
+                    <p style="font-size: 12px;">Season Ball</p>
+                    <a href="#" class="buy-btn">VIEW DEAL</a>
+                </div>
+            </div>
+        </div>
 
         <div class="footer">
-            <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" alt="counter" />
+            <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
             <p>© 2026 Core News Network | Harsh Pratap Singh Chouhan</p>
         </div>
     </div>
