@@ -4,25 +4,26 @@ import os
 
 app = Flask(__name__)
 
-def get_live_scores():
+def get_cricbuzz_data():
+    url = "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent"
+    headers = {
+        "X-RapidAPI-Key": "c83e887053mshb3e304f84916276p1e8976jsn4ead0beaafab",
+        "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com"
+    }
     try:
-        # Stable Cricket API
-        url = "https://cricket-api-unofficial.vercel.app/live"
-        response = requests.get(url, timeout=12)
-        if response.status_code == 200:
-            data = response.json()
-            if data.get('status') == 'success':
-                return data.get('matches', [])
-        return []
+        response = requests.get(url, headers=headers, timeout=10)
+        data = response.json()
+        # Cricbuzz API se matches nikalna
+        return data.get('typeMatches', [])
     except:
         return []
 
 @app.route('/')
 def index():
-    matches = get_live_scores()
+    matches = get_cricbuzz_data()
     return render_template('index.html', matches=matches)
 
 if __name__ == '__main__':
-    # Render ke liye dynamic port binding
+    # Render ke liye ye line sabse zaruri hai (Port Binding)
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
