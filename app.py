@@ -11,10 +11,8 @@ def get_cricket_data():
         "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com"
     }
     try:
-        response = requests.get(url, headers=headers, timeout=15)
-        if response.status_code == 200:
-            return response.json().get('typeMatches', [])
-        return []
+        response = requests.get(url, headers=headers, timeout=10)
+        return response.json().get('typeMatches', [])
     except:
         return []
 
@@ -23,7 +21,5 @@ def index():
     matches = get_cricket_data()
     return render_template('index.html', matches=matches)
 
-if __name__ == '__main__':
-    # Render automatically sets the PORT environment variable
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+if __name__ == "__main__":
+    app.run()
