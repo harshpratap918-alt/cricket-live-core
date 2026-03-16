@@ -3,90 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORE SPORTS 24x7 | Premium</title>
+    <title>CORE SPORTS | Global Edition</title>
     <style>
-        :root { --espn-blue: #06173d; --espn-red: #cc0000; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; margin: 0; }
+        :root { --blue: #06173d; --red: #cc0000; --light: #f4f6f9; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; color: #222; }
         
-        /* Top Score Ticker */
-        .ticker-wrap { background: #eeeeee; padding: 10px 0; overflow: hidden; border-bottom: 1px solid #ddd; }
-        .ticker { display: flex; white-space: nowrap; animation: marquee 30s linear infinite; }
-        .ticker-item { padding: 0 20px; border-right: 1px solid #ccc; font-size: 13px; font-weight: bold; color: #333; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* ESPN Style Ticker */
+        .ticker-container { background: #eee; border-bottom: 1px solid #ddd; padding: 8px 0; font-size: 13px; font-weight: bold; overflow: hidden; }
+        .ticker-move { display: flex; animation: slide 30s linear infinite; }
+        .ticker-item { padding: 0 30px; border-right: 1px solid #ccc; white-space: nowrap; }
+        @keyframes slide { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         /* Navigation */
-        .nav-main { background: var(--espn-blue); color: white; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
-        .logo span { color: var(--espn-red); }
+        .nav { background: var(--blue); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--red); }
+        .logo { font-size: 24px; font-weight: 900; }
+        .logo span { color: var(--red); }
 
-        /* Sports Menu */
-        .sub-nav { background: #fff; padding: 0 5%; display: flex; gap: 20px; border-bottom: 2px solid #ddd; }
-        .nav-item { padding: 15px 0; font-size: 14px; font-weight: bold; cursor: pointer; color: #555; border-bottom: 3px solid transparent; }
-        .nav-item.active { border-bottom: 3px solid var(--espn-red); color: #000; }
+        /* Sports Tabs */
+        .tabs { background: white; display: flex; justify-content: center; border-bottom: 1px solid #ddd; }
+        .tab { padding: 15px 25px; cursor: pointer; font-weight: bold; color: #666; transition: 0.3s; border-bottom: 3px solid transparent; }
+        .tab.active { color: var(--red); border-bottom: 3px solid var(--red); }
 
-        .main-container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 0 20px; }
+        .container { max-width: 1100px; margin: 20px auto; display: grid; grid-template-columns: 1fr 300px; gap: 20px; padding: 0 15px; }
+        .section { display: none; }
+        .section.active { display: block; }
 
-        /* Feature News Card */
-        .feature-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .feature-img { width: 100%; height: 350px; object-fit: cover; background: #ddd; }
-        .feature-content { padding: 20px; }
-        .feature-tag { color: var(--espn-red); font-weight: bold; font-size: 12px; text-transform: uppercase; }
+        /* Cards */
+        .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .feature-img { width: 100%; border-radius: 8px; margin-bottom: 15px; }
 
-        /* Sidebar Store */
-        .sidebar-card { background: #111; color: white; padding: 20px; border-radius: 8px; text-align: center; }
-        .amazon-btn { background: #ff9900; color: black; display: block; padding: 12px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 15px; }
+        /* Store */
+        .store-sidebar { background: #111; color: white; padding: 20px; border-radius: 12px; text-align: center; }
+        .buy-now { background: #ff9900; color: black; display: block; padding: 12px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 15px; }
 
-        @media (max-width: 768px) { .main-container { grid-template-columns: 1fr; } }
+        @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <div class="ticker-item">ISL: NEU 2 - 1 JFC (FT)</div>
-            <div class="ticker-item">PREM: MUN 3 - 1 AVL (FT)</div>
-            <div class="ticker-item">LALIGA: BAR 5 - 2 SEV (FT)</div>
-            <div class="ticker-item">IPL: RR vs MI (Tomorrow 7:30 PM)</div>
+    <div class="ticker-container">
+        <div class="ticker-move">
+            <div class="ticker-item">🏏 IND vs AUS: LIVE NOW</div>
+            <div class="ticker-item">⚽ PREMIER LEAGUE: Chelsea vs Arsenal</div>
+            <div class="ticker-item">🏀 NBA: Lakers 112 - 105 Warriors</div>
+            <div class="ticker-item">🔥 IPL 2026: Tickets Live Soon</div>
         </div>
     </div>
 
-    <div class="nav-main">
-        <div class="logo">CORE<span>SPORTS</span> 24x7</div>
-        <div style="font-size: 12px;">March 16, 2026</div>
+    <div class="nav">
+        <div class="logo">CORE<span>SPORTS</span></div>
     </div>
 
-    <div class="sub-nav">
-        <div class="nav-item active">CRICKET</div>
-        <div class="nav-item">FOOTBALL</div>
-        <div class="nav-item">NBA</div>
-        <div class="nav-item">SHOP</div>
+    <div class="tabs">
+        <div class="tab active" onclick="showSport('cricket', this)">CRICKET</div>
+        <div class="tab" onclick="showSport('football', this)">FOOTBALL</div>
+        <div class="tab" onclick="showSport('nba', this)">NBA</div>
     </div>
 
-    <div class="main-container">
-        <div class="content-left">
-            <div class="feature-card">
-                <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_1280,q_70/lsci/db/PICTURES/CMS/348100/348108.6.jpg" class="feature-img">
-                <div class="feature-content">
-                    <div class="feature-tag">Latest Update</div>
-                    <h2 style="margin: 10px 0;">Stats: Bruno's 16 overtakes Beckham; Bowman's 16 sets PL record</h2>
-                    <p style="color: #666; font-size: 14px;">ESPN records highlight a historic night in the Premier League as records tumble across the board.</p>
+    <div class="container">
+        <div class="main-content">
+            <div id="cricket" class="section active">
+                <div class="card">
+                    <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_1280,q_70/lsci/db/PICTURES/CMS/348100/348108.6.jpg" class="feature-img">
+                    <h2>Cricket World Analysis</h2>
+                    <p>Live scores and match dynamics updated in real-time by Harsh Pratap Singh.</p>
+                </div>
+                {% if cricket %}
+                    {% for m in cricket %}
+                    <div class="card" style="border-left: 5px solid var(--red);">
+                        <b>{{ m.matchType }}</b><br>{{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div id="football" class="section">
+                <div class="card">
+                    <h2>⚽ Football Central</h2>
+                    <p>Live scores for EPL, ISL, and La Liga will appear here.</p>
+                </div>
+            </div>
+
+            <div id="nba" class="section">
+                <div class="card">
+                    <h2>🏀 NBA Tracker</h2>
+                    <p>Basketball highlights and live quarter updates.</p>
                 </div>
             </div>
         </div>
 
-        <div class="content-right">
-            <div class="sidebar-card">
-                <h3 style="color: #ff9900; margin-top: 0;">OFFICIAL STORE</h3>
-                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 100px; border-radius: 5px;">
-                <p style="font-size: 14px;">Get the Premium Willow Bat used by Pros.</p>
-                <a href="https://amzn.to/4cJsxGf" target="_blank" class="amazon-btn">VIEW ON AMAZON</a>
+        <div class="sidebar">
+            <div class="store-sidebar">
+                <h3>CORE STORE</h3>
+                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 100px;">
+                <p>Premium Grade Bat</p>
+                <a href="https://amzn.to/4cJsxGf" target="_blank" class="buy-now">BUY ON AMAZON</a>
             </div>
-            
-            <div style="margin-top: 20px; text-align: center;">
+            <div style="text-align: center; margin-top: 20px;">
                 <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
             </div>
         </div>
     </div>
 
+    <script>
+        function showSport(name, el) {
+            var sections = document.getElementsByClassName('section');
+            for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
+            var tabs = document.getElementsByClassName('tab');
+            for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+            document.getElementById(name).classList.add('active');
+            el.classList.add('active');
+        }
+    </script>
 </body>
 </html>
