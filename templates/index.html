@@ -1,91 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORE SPORTS 24x7</title>
+    <title>CORE SPORTS 24x7 | Premium</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; text-align: center; color: #333; }
-        .header { background: #06173d; color: white; padding: 20px; border-bottom: 5px solid #e41b23; }
-        .tab-bar { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .tab { padding: 8px 18px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .tab.active { background: #e41b23; color: white; border: none; }
-        .container { max-width: 500px; margin: auto; padding: 15px; }
-        .content-section { display: none; animation: fadeIn 0.5s; }
-        .content-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .match-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; text-align: left; border-left: 6px solid #06173d; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
-        .store-box { background: #111; color: #facc15; padding: 20px; border-radius: 15px; margin-top: 30px; border: 2px solid #facc15; }
-        .btn { background: #facc15; color: black; padding: 10px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin-top: 15px; }
+        :root { --espn-blue: #06173d; --espn-red: #cc0000; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; margin: 0; }
+        
+        /* Top Score Ticker */
+        .ticker-wrap { background: #eeeeee; padding: 10px 0; overflow: hidden; border-bottom: 1px solid #ddd; }
+        .ticker { display: flex; white-space: nowrap; animation: marquee 30s linear infinite; }
+        .ticker-item { padding: 0 20px; border-right: 1px solid #ccc; font-size: 13px; font-weight: bold; color: #333; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Navigation */
+        .nav-main { background: var(--espn-blue); color: white; padding: 15px 5%; display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
+        .logo span { color: var(--espn-red); }
+
+        /* Sports Menu */
+        .sub-nav { background: #fff; padding: 0 5%; display: flex; gap: 20px; border-bottom: 2px solid #ddd; }
+        .nav-item { padding: 15px 0; font-size: 14px; font-weight: bold; cursor: pointer; color: #555; border-bottom: 3px solid transparent; }
+        .nav-item.active { border-bottom: 3px solid var(--espn-red); color: #000; }
+
+        .main-container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 0 20px; }
+
+        /* Feature News Card */
+        .feature-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .feature-img { width: 100%; height: 350px; object-fit: cover; background: #ddd; }
+        .feature-content { padding: 20px; }
+        .feature-tag { color: var(--espn-red); font-weight: bold; font-size: 12px; text-transform: uppercase; }
+
+        /* Sidebar Store */
+        .sidebar-card { background: #111; color: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .amazon-btn { background: #ff9900; color: black; display: block; padding: 12px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 15px; }
+
+        @media (max-width: 768px) { .main-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="header"><h1>CORE SPORTS 24x7</h1></div>
-    
-    <div class="tab-bar">
-        <div class="tab active" onclick="openTab('cricket', this)">🏏 Cricket</div>
-        <div class="tab" onclick="openTab('football', this)">⚽ Football</div>
-        <div class="tab" onclick="openTab('nba', this)">🏀 NBA</div>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <div class="ticker-item">ISL: NEU 2 - 1 JFC (FT)</div>
+            <div class="ticker-item">PREM: MUN 3 - 1 AVL (FT)</div>
+            <div class="ticker-item">LALIGA: BAR 5 - 2 SEV (FT)</div>
+            <div class="ticker-item">IPL: RR vs MI (Tomorrow 7:30 PM)</div>
+        </div>
     </div>
 
-    <div class="container">
-        
-        <div id="cricket" class="content-section active">
-            <h3 style="text-align: left;">Live Cricket Matches</h3>
-            {% if cricket %}
-                {% for m in cricket %}
-                <div class="match-card">
-                    <span style="color: #e41b23; font-size: 11px; font-weight: bold;">{{ m.matchType }}</span>
-                    <div style="font-size: 16px; margin-top: 5px;">{{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match Ongoing" }}</div>
+    <div class="nav-main">
+        <div class="logo">CORE<span>SPORTS</span> 24x7</div>
+        <div style="font-size: 12px;">March 16, 2026</div>
+    </div>
+
+    <div class="sub-nav">
+        <div class="nav-item active">CRICKET</div>
+        <div class="nav-item">FOOTBALL</div>
+        <div class="nav-item">NBA</div>
+        <div class="nav-item">SHOP</div>
+    </div>
+
+    <div class="main-container">
+        <div class="content-left">
+            <div class="feature-card">
+                <img src="https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_1280,q_70/lsci/db/PICTURES/CMS/348100/348108.6.jpg" class="feature-img">
+                <div class="feature-content">
+                    <div class="feature-tag">Latest Update</div>
+                    <h2 style="margin: 10px 0;">Stats: Bruno's 16 overtakes Beckham; Bowman's 16 sets PL record</h2>
+                    <p style="color: #666; font-size: 14px;">ESPN records highlight a historic night in the Premier League as records tumble across the board.</p>
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="match-card">Getting latest cricket scores...</div>
-            {% endif %}
-        </div>
-
-        <div id="football" class="content-section">
-            <h3 style="text-align: left;">Live Football Scores</h3>
-            <div class="match-card">
-                <p>Connecting to Football API... Coming Soon!</p>
             </div>
         </div>
 
-        <div id="nba" class="content-section">
-            <h3 style="text-align: left;">NBA & Basketball</h3>
-            <div class="match-card">
-                <p>Connecting to NBA API... Coming Soon!</p>
+        <div class="content-right">
+            <div class="sidebar-card">
+                <h3 style="color: #ff9900; margin-top: 0;">OFFICIAL STORE</h3>
+                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 100px; border-radius: 5px;">
+                <p style="font-size: 14px;">Get the Premium Willow Bat used by Pros.</p>
+                <a href="https://amzn.to/4cJsxGf" target="_blank" class="amazon-btn">VIEW ON AMAZON</a>
             </div>
-        </div>
-
-        <div class="store-box">
-            <h3>🛒 CORE SPORTS STORE</h3>
-            <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" width="120px" style="border-radius: 10px;"><br>
-            <p style="color: white;">Premium Grade Cricket Bat</p>
-            <a href="https://amzn.to/4cJsxGf" target="_blank" class="btn">VIEW DEAL ON AMAZON</a>
-        </div>
-
-        <div style="margin-top: 40px; opacity: 0.6; font-size: 12px;">
-            <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
-            <p>© 2026 Core News Network | Harsh Pratap</p>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
+            </div>
         </div>
     </div>
 
-    <script>
-        function openTab(tabName, element) {
-            // Hide all sections
-            var sections = document.getElementsByClassName("content-section");
-            for (var i = 0; i < sections.length; i++) {
-                sections[i].classList.remove("active");
-            }
-            // Deactivate all tabs
-            var tabs = document.getElementsByClassName("tab");
-            for (var i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove("active");
-            }
-            // Show current section and active tab
-            document.getElementById(tabName).classList.add("active");
-            element.classList.add("active");
-        }
-    </script>
 </body>
 </html>
