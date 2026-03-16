@@ -14,9 +14,9 @@
         .ticker-item { padding: 0 30px; border-right: 1px solid #ccc; font-size: 13px; font-weight: bold; color: var(--blue); }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* Navigation with Logo */
-        .nav { background: var(--blue); color: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--red); }
-        .logo-img { height: 55px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        /* Navigation with Logo (Fixed Height) */
+        .nav { background: white; padding: 10px 5%; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid var(--blue); }
+        .logo-img { height: 60px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1)); }
 
         /* Search Bar */
         .search-area { background: white; padding: 15px; border-bottom: 1px solid #ddd; text-align: center; }
@@ -51,21 +51,18 @@
 
     <div class="ticker-wrap">
         <div class="ticker">
-            <div class="ticker-item">🏏 CRICKET: All Matches Updating Live</div>
-            <div class="ticker-item">⚽ FOOTBALL: Premier League & ISL Headlines Automated</div>
-            <div class="ticker-item">🏀 NBA: Scores & Highlights Refreshing every 90s</div>
+            <div class="ticker-item">🏏 CRICKET: Updates Live</div>
+            <div class="ticker-item">⚽ FOOTBALL: EPL & ISL News Automated</div>
+            <div class="ticker-item">🏀 NBA: Scores & Highlights Refreshing...</div>
         </div>
     </div>
 
     <div class="nav">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7I9o3I-j3p8W9J5V5N-M3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I/s1600/corenewslogo.png" alt="CORE NEWS 24x7" class="logo-img">
-        <div style="font-size: 11px; text-align: right; line-height: 1.2;">
-            <span style="color: var(--red); font-weight: bold;">LIVE</span><br>NETWORK
-        </div>
+        <img src="https://hitwebcounter.com/counter/counter.php?page=logo&style=0006&nbdigits=5&type=page&initCount=0" alt="CORE SPORTS" class="logo-img">
     </div>
 
     <div class="search-area">
-        <input type="text" id="searchBox" onkeyup="doSearch()" class="search-input" placeholder="Search live matches, teams or headlines...">
+        <input type="text" id="searchBox" onkeyup="liveFilter()" class="search-input" placeholder="Search live matches, teams or players...">
     </div>
 
     <div class="tabs">
@@ -78,76 +75,63 @@
         <div class="left-col">
             
             <div id="cricket" class="sport-section active">
-                <h3 style="margin-top: 0;">🏏 Cricket Live & News</h3>
-                {% for n in cricket_news %}
-                <div class="card cricket">
-                    <a href="{{ n.link }}" target="_blank" style="text-decoration:none; color:inherit;">
-                        <h4 style="margin: 0 0 10px 0;">{{ n.title }}</h4>
-                        <p style="font-size: 13px; color: #666; margin: 0;">{{ n.summary[:130] }}...</p>
-                    </a>
-                </div>
-                {% endfor %}
+                <h3 style="margin-top: 0;">LATEST CRICKET</h3>
+                {% if cricket %}
+                    {% for m in cricket %}
+                    <div class="card cricket">
+                        <b>{{ m.matchType }}</b><br>
+                        {{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match Ongoing" }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             <div id="football" class="sport-section">
-                <h3 style="margin-top: 0;">⚽ Football Headlines</h3>
-                {% for f in football_news %}
-                <div class="card football">
-                    <a href="{{ f.link }}" target="_blank" style="text-decoration:none; color:inherit;">
-                        <h4 style="margin: 0;">{{ f.title }}</h4>
-                    </a>
-                </div>
-                {% endfor %}
+                <h3 style="margin-top: 0;">FOOTBALL HUB</h3>
+                <div class="card football">Connecting to Football servers... Coming soon.</div>
             </div>
 
             <div id="nba" class="sport-section">
-                <h3 style="margin-top: 0;">🏀 NBA Updates</h3>
-                {% for b in nba_news %}
-                <div class="card nba">
-                    <a href="{{ b.link }}" target="_blank" style="text-decoration:none; color:inherit;">
-                        <h4 style="margin: 0;">{{ b.title }}</h4>
-                    </a>
-                </div>
-                {% endfor %}
+                <h3 style="margin-top: 0;">NBA TRACKER</h3>
+                <div class="card nba">Lakers vs Warriors: Live scores soon.</div>
             </div>
 
         </div>
 
         <div class="right-col">
             <div class="sidebar-store">
-                <h3 style="color: var(--gold); margin-top: 0;">CORE STORE</h3>
+                <h3>CORE STORE</h3>
                 <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" class="store-img">
-                <p style="font-size: 14px;">Premium Willow Cricket Bat</p>
+                <p>Premium Willow Bat</p>
                 <a href="https://amzn.to/4cJsxGf" target="_blank" class="amazon-btn">BUY ON AMAZON</a>
             </div>
-            
-            <div style="margin-top: 30px; text-align: center;">
-                <p style="font-size: 11px; color: #888;">REAL-TIME VISITORS</p>
+            <div style="text-align: center; margin-top: 20px;">
                 <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
-                <p style="font-size: 12px; color: #999; margin-top: 10px;">© 2026 Core Network | Harsh Pratap</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Tab Switching Logic
-        function changeSport(sportId, btn) {
+        // Tab Logic
+        function changeSport(sportId, element) {
             let sections = document.getElementsByClassName('sport-section');
             for (let s of sections) s.classList.remove('active');
-            
             let tabs = document.getElementsByClassName('tab');
             for (let t of tabs) t.classList.remove('active');
-            
             document.getElementById(sportId).classList.add('active');
-            btn.classList.add('active');
+            element.classList.add('active');
         }
 
         // Live Filter Logic
-        function doSearch() {
-            let val = document.getElementById('searchBox').value.toLowerCase();
+        function liveFilter() {
+            let input = document.getElementById('searchBox').value.toLowerCase();
             let cards = document.getElementsByClassName('card');
             for (let c of cards) {
-                c.style.display = c.innerText.toLowerCase().includes(val) ? "block" : "none";
+                if (c.innerText.toLowerCase().includes(input)) {
+                    c.style.display = "block";
+                } else {
+                    c.style.display = "none";
+                }
             }
         }
     </script>
