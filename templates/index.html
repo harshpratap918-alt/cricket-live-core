@@ -3,41 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="60">
-    <title>CORE SPORTS 24x7 | Automated Global Edition</title>
+    <meta http-equiv="refresh" content="90"> <title>CORE SPORTS 24x7 | Global Edition</title>
     <style>
         :root { --blue: #06173d; --red: #cc0000; --light: #f4f6f9; --gold: #ff9900; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--light); margin: 0; color: #222; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; color: #222; }
         
-        /* Premium Ticker */
-        .ticker-wrap { background: #eeeeee; padding: 10px 0; overflow: hidden; border-bottom: 1px solid #ddd; }
+        /* Ticker */
+        .ticker-wrap { background: #eee; padding: 10px 0; overflow: hidden; border-bottom: 1px solid #ddd; }
         .ticker { display: flex; white-space: nowrap; animation: marquee 40s linear infinite; }
         .ticker-item { padding: 0 25px; border-right: 1px solid #ccc; font-size: 13px; font-weight: bold; color: var(--blue); }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
         /* Navigation */
         .nav { background: var(--blue); color: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--red); }
-        .logo { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+        .logo { font-size: 26px; font-weight: 900; }
         .logo span { color: var(--red); }
 
-        /* Sports Tabs */
+        /* Tabs Logic */
         .tabs { background: white; display: flex; justify-content: center; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .tab { padding: 15px 20px; cursor: pointer; font-weight: bold; color: #555; border-bottom: 3px solid transparent; transition: 0.3s; }
+        .tab { padding: 15px 20px; cursor: pointer; font-weight: bold; color: #555; border-bottom: 3px solid transparent; }
         .tab.active { color: var(--red); border-bottom: 3px solid var(--red); }
 
         .main-container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 25px; padding: 0 15px; }
+        
+        /* Sections */
+        .sport-section { display: none; }
+        .sport-section.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* News & Score Cards */
-        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 1px solid #eee; }
-        .badge { background: var(--red); color: white; padding: 3px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase; font-weight: bold; }
-        .news-link { text-decoration: none; color: inherit; }
-        .news-link:hover h3 { color: var(--red); }
-
-        /* Sidebar Store */
+        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .sidebar-store { background: #111; color: white; padding: 25px; border-radius: 15px; text-align: center; position: sticky; top: 80px; }
-        .store-img { width: 130px; margin-bottom: 15px; border-radius: 8px; }
-        .amazon-btn { background: var(--gold); color: black; display: block; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 15px; transition: 0.3s; }
-        .amazon-btn:hover { transform: scale(1.05); }
+        .amazon-btn { background: var(--gold); color: black; display: block; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 15px; }
 
         @media (max-width: 850px) { .main-container { grid-template-columns: 1fr; } }
     </style>
@@ -46,74 +42,81 @@
 
     <div class="ticker-wrap">
         <div class="ticker">
-            <div class="ticker-item">🏏 LIVE: India vs Australia - Border Gavaskar Trophy</div>
-            <div class="ticker-item">⚽ ISL: NorthEast United vs Jamshedpur FC (Live)</div>
-            <div class="ticker-item">🏀 NBA: Lakers lead Warriors by 5 pts (4th Qtr)</div>
-            <div class="ticker-item">📢 BREAKING: All match scores updating every 60 seconds!</div>
+            <div class="ticker-item">🏏 CRICKET: Updates Live</div>
+            <div class="ticker-item">⚽ FOOTBALL: EPL & ISL News Active</div>
+            <div class="ticker-item">🏀 NBA: Scores Refreshing...</div>
         </div>
     </div>
 
-    <div class="nav">
-        <div class="logo">CORE<span>SPORTS</span></div>
-        <div style="font-size: 12px; opacity: 0.8;">AUTOMATED SPORTS PORTAL</div>
-    </div>
+    <div class="nav"><div class="logo">CORE<span>SPORTS</span></div></div>
 
     <div class="tabs">
-        <div class="tab active">CRICKET</div>
-        <div class="tab">FOOTBALL</div>
-        <div class="tab">NBA</div>
-        <div class="tab">LATEST NEWS</div>
+        <div class="tab active" onclick="switchSport('cricket', this)">CRICKET</div>
+        <div class="tab" onclick="switchSport('football', this)">FOOTBALL</div>
+        <div class="tab" onclick="switchSport('nba', this)">NBA</div>
     </div>
 
     <div class="main-container">
         <div class="left-col">
             
-            <h3 style="border-left: 5px solid var(--red); padding-left: 10px;">LATEST SPORTS HEADLINES</h3>
-            {% if news %}
-                {% for item in news %}
-                <div class="card">
-                    <a href="{{ item.link }}" target="_blank" class="news-link">
-                        <span class="badge">Trending</span>
-                        <h3 style="margin: 10px 0;">{{ item.title }}</h3>
-                        <p style="font-size: 14px; color: #666;">{{ item.summary[:150] }}...</p>
-                        <small style="color: #999;">Read more on source →</small>
-                    </a>
-                </div>
-                {% endfor %}
-            {% else %}
-                <div class="card">Fetching automated news from ESPN feeds...</div>
-            {% endif %}
+            <div id="cricket" class="sport-section active">
+                <h3 style="border-left: 5px solid var(--red); padding-left: 10px;">LATEST CRICKET</h3>
+                {% if cricket %}
+                    {% for m in cricket %}
+                    <div class="card" style="border-left: 5px solid var(--blue);">
+                        <b>{{ m.matchType }}</b><br>
+                        {{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match Live" }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
 
-            <h3 style="border-left: 5px solid var(--blue); padding-left: 10px; margin-top: 30px;">LIVE SCOREBOARD</h3>
-            {% if cricket %}
-                {% for m in cricket %}
-                <div class="card" style="border-left: 6px solid var(--blue);">
-                    <b style="color: var(--red);">{{ m.matchType }}</b>
-                    <h2 style="margin: 5px 0; font-size: 18px;">{{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Ongoing Match" }}</h2>
-                    <p style="font-size: 14px; color: #555;">Check scoreboard for live ball-by-ball updates.</p>
+            <div id="football" class="sport-section">
+                <h3 style="border-left: 5px solid #1d9bf0; padding-left: 10px;">FOOTBALL HUB</h3>
+                <div class="card">
+                    <p>Fetching Live Football Scores (EPL, La Liga, ISL)...</p>
+                    <small>Auto-updates every 90 seconds</small>
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="card">Connecting to stadium servers...</div>
-            {% endif %}
+            </div>
+
+            <div id="nba" class="sport-section">
+                <h3 style="border-left: 5px solid #f57c00; padding-left: 10px;">NBA BASKETBALL</h3>
+                <div class="card">
+                    <p>Live NBA Standings and Scores Loading...</p>
+                </div>
+            </div>
+
         </div>
 
         <div class="right-col">
             <div class="sidebar-store">
-                <h2 style="color: var(--gold); margin-top: 0;">OFFICIAL SHOP</h2>
-                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" class="store-img">
-                <p style="font-size: 14px; color: #ddd;">Get the <b>Premium Willow Bat</b> used by top cricketers.</p>
-                <a href="https://amzn.to/4cJsxGf" target="_blank" class="amazon-btn">CHECK PRICE ON AMAZON</a>
-                <p style="font-size: 10px; margin-top: 15px; color: #888;">Free Shipping Available</p>
+                <h3>CORE STORE</h3>
+                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 100px;">
+                <p>Premium Willow Bat</p>
+                <a href="https://amzn.to/4cJsxGf" target="_blank" class="amazon-btn">BUY ON AMAZON</a>
             </div>
-            
-            <div style="margin-top: 30px; text-align: center;">
-                <p style="font-size: 11px; color: #999;">REAL-TIME VISITOR COUNT</p>
+            <div style="text-align: center; margin-top: 20px;">
                 <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
-                <p style="font-size: 12px; color: #999; margin-top: 10px;">© 2026 Core Network | Harsh Pratap</p>
             </div>
         </div>
     </div>
 
+    <script>
+        function switchSport(sportId, element) {
+            // Saare sections hide karo
+            var sections = document.getElementsByClassName('sport-section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('active');
+            }
+            // Saare tabs se active color hatao
+            var tabs = document.getElementsByClassName('tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            // Jo click kiya use dikhao
+            document.getElementById(sportId).classList.add('active');
+            element.classList.add('active');
+        }
+    </script>
 </body>
 </html>
