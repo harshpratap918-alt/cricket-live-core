@@ -6,10 +6,13 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; text-align: center; color: #333; }
         .header { background: #06173d; color: white; padding: 20px; border-bottom: 5px solid #e41b23; }
-        .tab-bar { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .tab { padding: 5px 15px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px; font-weight: bold; }
-        .active { background: #e41b23; color: white; border: none; }
+        .tab-bar { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .tab { padding: 8px 18px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .tab.active { background: #e41b23; color: white; border: none; }
         .container { max-width: 500px; margin: auto; padding: 15px; }
+        .content-section { display: none; animation: fadeIn 0.5s; }
+        .content-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .match-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; text-align: left; border-left: 6px solid #06173d; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
         .store-box { background: #111; color: #facc15; padding: 20px; border-radius: 15px; margin-top: 30px; border: 2px solid #facc15; }
         .btn { background: #facc15; color: black; padding: 10px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin-top: 15px; }
@@ -19,23 +22,40 @@
     <div class="header"><h1>CORE SPORTS 24x7</h1></div>
     
     <div class="tab-bar">
-        <div class="tab active">🏏 Cricket</div>
-        <div class="tab">⚽ Football</div>
-        <div class="tab">🏀 NBA</div>
+        <div class="tab active" onclick="openTab('cricket', this)">🏏 Cricket</div>
+        <div class="tab" onclick="openTab('football', this)">⚽ Football</div>
+        <div class="tab" onclick="openTab('nba', this)">🏀 NBA</div>
     </div>
 
     <div class="container">
-        <h3 style="text-align: left;">Live Cricket Matches</h3>
-        {% if cricket %}
-            {% for m in cricket %}
+        
+        <div id="cricket" class="content-section active">
+            <h3 style="text-align: left;">Live Cricket Matches</h3>
+            {% if cricket %}
+                {% for m in cricket %}
+                <div class="match-card">
+                    <span style="color: #e41b23; font-size: 11px; font-weight: bold;">{{ m.matchType }}</span>
+                    <div style="font-size: 16px; margin-top: 5px;">{{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match Ongoing" }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="match-card">Getting latest cricket scores...</div>
+            {% endif %}
+        </div>
+
+        <div id="football" class="content-section">
+            <h3 style="text-align: left;">Live Football Scores</h3>
             <div class="match-card">
-                <span style="color: #e41b23; font-size: 11px; font-weight: bold;">{{ m.matchType }}</span>
-                <div style="font-size: 16px; margin-top: 5px;">{{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match Ongoing" }}</div>
+                <p>Connecting to Football API... Coming Soon!</p>
             </div>
-            {% endfor %}
-        {% else %}
-            <div class="match-card">Getting latest scores from stadium...</div>
-        {% endif %}
+        </div>
+
+        <div id="nba" class="content-section">
+            <h3 style="text-align: left;">NBA & Basketball</h3>
+            <div class="match-card">
+                <p>Connecting to NBA API... Coming Soon!</p>
+            </div>
+        </div>
 
         <div class="store-box">
             <h3>🛒 CORE SPORTS STORE</h3>
@@ -49,5 +69,23 @@
             <p>© 2026 Core News Network | Harsh Pratap</p>
         </div>
     </div>
+
+    <script>
+        function openTab(tabName, element) {
+            // Hide all sections
+            var sections = document.getElementsByClassName("content-section");
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].classList.remove("active");
+            }
+            // Deactivate all tabs
+            var tabs = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            // Show current section and active tab
+            document.getElementById(tabName).classList.add("active");
+            element.classList.add("active");
+        }
+    </script>
 </body>
 </html>
