@@ -1,51 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CORE SPORTS 24x7</title>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; margin: 0; text-align: center; }
-        .nav { background: #06173d; color: white; padding: 20px; border-bottom: 4px solid #e41b23; }
-        .container { max-width: 600px; margin: auto; padding: 15px; }
-        .card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .video-box { background: #111; padding: 15px; border-radius: 10px; color: white; }
-        iframe { width: 100%; height: 300px; border-radius: 8px; border: none; }
-        .store { background: #000; color: #fff; padding: 20px; border-radius: 10px; border: 2px solid #facc15; }
-        .btn { background: #facc15; color: #000; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block; margin-top: 10px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; text-align: center; color: #333; }
+        .header { background: #06173d; color: white; padding: 20px; border-bottom: 5px solid #e41b23; }
+        .tab-bar { background: #fff; padding: 10px; display: flex; justify-content: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .tab { padding: 5px 15px; border-radius: 20px; border: 1px solid #ccc; font-size: 14px; font-weight: bold; }
+        .active { background: #e41b23; color: white; border: none; }
+        .container { max-width: 500px; margin: auto; padding: 15px; }
+        .match-card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 15px; text-align: left; border-left: 6px solid #06173d; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+        .store-box { background: #111; color: #facc15; padding: 20px; border-radius: 15px; margin-top: 30px; border: 2px solid #facc15; }
+        .btn { background: #facc15; color: black; padding: 10px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <div class="nav"><h1>CORE SPORTS 24x7</h1></div>
+    <div class="header"><h1>CORE SPORTS 24x7</h1></div>
+    
+    <div class="tab-bar">
+        <div class="tab active">🏏 Cricket</div>
+        <div class="tab">⚽ Football</div>
+        <div class="tab">🏀 NBA</div>
+    </div>
+
     <div class="container">
-        
-        <h3>🏏 Live Scores</h3>
-        {% if matches %}
-            {% for m in matches %}
-                <div class="card">
-                    <b style="color: #e41b23;">{{ m.matchType }}</b><br>
-                    {{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match" }}
-                </div>
+        <h3 style="text-align: left;">Live Cricket Matches</h3>
+        {% if cricket %}
+            {% for m in cricket %}
+            <div class="match-card">
+                <span style="color: #e41b23; font-size: 11px; font-weight: bold;">{{ m.matchType }}</span>
+                <div style="font-size: 16px; margin-top: 5px;">{{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match Ongoing" }}</div>
+            </div>
             {% endfor %}
         {% else %}
-            <div class="card">Score data loading...</div>
+            <div class="match-card">Getting latest scores from stadium...</div>
         {% endif %}
 
-        <div class="video-box">
-            <h3>🎥 Highlights</h3>
-            <iframe src="https://www.youtube.com/embed/SZwvwFet4C8" allowfullscreen></iframe>
+        <div class="store-box">
+            <h3>🛒 CORE SPORTS STORE</h3>
+            <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" width="120px" style="border-radius: 10px;"><br>
+            <p style="color: white;">Premium Grade Cricket Bat</p>
+            <a href="https://amzn.to/4cJsxGf" target="_blank" class="btn">VIEW DEAL ON AMAZON</a>
         </div>
 
-        <h3>🛒 Core Store</h3>
-        <div class="store">
-            <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 80px;">
-            <p>Premium Cricket Bat</p>
-            <a href="https://amzn.to/4cJsxGf" target="_blank" class="btn">VIEW ON AMAZON</a>
-        </div>
-
-        <div style="margin-top: 30px;">
+        <div style="margin-top: 40px; opacity: 0.6; font-size: 12px;">
             <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
-            <p>© 2026 Core News | Harsh Pratap Singh</p>
+            <p>© 2026 Core News Network | Harsh Pratap</p>
         </div>
     </div>
 </body>
