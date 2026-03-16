@@ -1,30 +1,44 @@
 from flask import Flask, render_template
 import requests
-import feedparser # Nayi library news ke liye
+import feedparser
 import os
 
 app = Flask(__name__)
 
+# RapidAPI Headers (Aapki Key ke saath)
+HEADERS = {
+    "X-RapidAPI-Key": "c83e887053mshb3e304f84916276p1e8976jsn4ead0beaafab",
+    "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com"
+}
+
 def get_cricket():
-    # Aapka purana cricket API logic
-    url = "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent"
-    headers = {"X-RapidAPI-Key": "YOUR_KEY", "X-RapidAPI-Host": "cricbuzz-cricket.p.rapidapi.com"}
     try:
-        r = requests.get(url, headers=headers, timeout=5)
+        url = "https://cricbuzz-cricket.p.rapidapi.com/matches/v1/recent"
+        r = requests.get(url, headers=HEADERS, timeout=5)
         return r.json().get('typeMatches', [])
     except: return []
 
-def get_news():
-    # Yeh automatically ESPN ki news uthayega
-    feed_url = "https://www.espn.com/espn/rss/cricket/news"
-    feed = feedparser.parse(feed_url)
-    return feed.entries[:5] # Top 5 headlines
+def get_news(sport_type):
+    # RSS Feeds for Automation
+    feeds = {
+        'cricket': "https://www.espn.com/espn/rss/cricket/news",
+        'football': "https://www.espn.com/espn/rss/football/news",
+        'nba': "https://www.espn.com/espn/rss/nba/news"
+    }
+    try:
+        feed = feedparser.parse(feeds.get(sport_type))
+        return feed.entries[:5] # Top 5 headlines
+    except: return []
 
 @app.route('/')
 def index():
-    cricket = get_cricket()
-    news = get_news()
-    return render_template('index.html', cricket=cricket, news=news)
+    data = {
+        'cricket_scores': get_cricket(),
+        'cricket_news': get_news('cricket'),
+        'football_news': get_news('football'),
+        'nba_news': get_news('nba')
+    }
+    return render_template('index.html', **data)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
