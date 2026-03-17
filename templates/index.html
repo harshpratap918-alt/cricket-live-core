@@ -5,58 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CORE SPORTS 24x7</title>
     
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
 
     <style>
         :root { --blue: #06173d; --red: #cc0000; --light: #f4f6f9; --rr: #004ba0; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; transition: 0.3s; }
-        .dark-mode { background: #0b1120; color: white; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; color: #333; transition: 0.3s; }
+        .dark-mode { background: #0b1120; color: #f1f5f9; }
         
-        .nav { background: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--blue); }
-        .logo-img { height: 50px; }
-        
+        /* Banner with your Logo */
+        .banner { background: white; padding: 15px; text-align: center; border-bottom: 4px solid var(--blue); }
+        .banner img { max-height: 75px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+        .nav { background: var(--blue); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; color: white; }
         .container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 2.5fr 1fr; gap: 20px; padding: 0 15px; }
-        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 15px; color: #222; }
+        
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 20px; position: relative; }
         .dark-mode .card { background: #1e293b; color: white; }
 
-        .live-dot { height: 10px; width: 10px; background: red; border-radius: 50%; display: inline-block; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .live-pulse { height: 10px; width: 10px; background: #ff0000; border-radius: 50%; display: inline-block; margin-right: 8px; animation: blink 1.2s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        .btn-wa { background: #25D366; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 13px; }
-        #theme-toggle { cursor: pointer; padding: 8px 15px; border-radius: 20px; border: 1px solid var(--blue); }
+        .btn-share { background: #25D366; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        #mode-toggle { cursor: pointer; background: transparent; border: 1px solid white; color: white; padding: 5px 12px; border-radius: 20px; }
+
+        @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
+    <div class="banner">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj7I9o3I-j3p8W9J5V5N-M3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I3v3I/s1600/corenewslogo.png" alt="CORE SPORTS">
+    </div>
+
     <div class="nav">
-        <img src="{{ url_for('static', filename='apple-touch-icon.png') }}" class="logo-img" alt="CORE">
-        <button id="theme-toggle" onclick="toggleMode()">🌙 Mode</button>
+        <span>CORE NETWORK | 2026</span>
+        <button id="mode-toggle" onclick="toggleMode()">🌙 Mode</button>
     </div>
 
     <div class="container">
-        <div class="main">
-            <h3><span class="live-dot"></span> LIVE MATCHES</h3>
+        <div class="main-side">
+            <h2 style="border-left: 5px solid var(--red); padding-left: 10px;">🏏 LIVE SCOREBOARD</h2>
             {% if cricket %}
                 {% for match in cricket %}
                 <div class="card">
-                    <h4>{{ match.matchType }}</h4>
+                    <span class="live-pulse"></span> <b style="color:red">LIVE</b>
+                    <h3>{{ match.matchType }}</h3>
                     <p>{{ match.seriesMatches[0].seriesAdWrapper.seriesName if match.seriesMatches[0] }}</p>
-                    <button class="btn-wa" onclick="share('{{ match.matchType }}')">Share Score 📲</button>
+                    <button class="btn-share" onclick="share('{{ match.matchType }}')">WhatsApp Share 📲</button>
                 </div>
                 {% endfor %}
-            {% else: %}
-                <div class="card">No live matches at the moment. Checking feeds...</div>
+            {% else %}
+                <div class="card">No live matches found. Checking updates...</div>
             {% endif %}
+
+            <h2 style="margin-top: 40px; border-left: 5px solid var(--blue); padding-left: 10px;">📰 TOP HEADLINES</h2>
+            {% for n in news %}
+            <div class="card" onclick="window.open('{{ n.link }}', '_blank')" style="cursor: pointer;">
+                <h4 style="margin: 0; color: var(--blue);">{{ n.title }}</h4>
+                <p style="font-size: 13px; color: #666; margin-top: 10px;">{{ n.summary[:130] }}...</p>
+            </div>
+            {% endfor %}
         </div>
 
         <div class="sidebar">
             <div class="card" style="text-align: center; border-top: 5px solid var(--rr);">
-                <h5 style="color: var(--rr); margin: 0;">PLAYER OF THE MONTH</h5>
+                <h4 style="color: var(--rr); margin-bottom: 15px;">PLAYER OF THE MONTH</h4>
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf5E8U2Y1V-V7_vM0a2zQo3Q6zU-F3_G_Kiw&s" 
-                     style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 15px 0; border: 3px solid var(--rr);">
-                <h4>Sanju Samson</h4>
-                <p style="font-size: 12px;">Leading Rajasthan Royals with pride!</p>
+                     style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--rr);">
+                <h3>Sanju Samson</h3>
+                <p style="font-size: 13px;">Leading RR with class and power!</p>
+            </div>
+
+            <div class="card" style="background: #111; color: white; text-align: center;">
+                <h4 style="color: gold;">CORE STORE</h4>
+                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 90px; margin-bottom: 10px;">
+                <p style="font-size: 12px;">English Willow Cricket Bat</p>
+                <a href="https://amzn.to/4cJsxGf" target="_blank" style="background: gold; color: black; padding: 8px; border-radius: 5px; text-decoration: none; display: block; font-weight: bold;">BUY ON AMAZON</a>
             </div>
         </div>
     </div>
