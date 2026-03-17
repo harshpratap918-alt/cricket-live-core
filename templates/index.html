@@ -3,137 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="90"> <title>CORE SPORTS 24x7 | Official Portal</title>
+    <title>CORE SPORTS 24x7 | Premium</title>
+    
+    <link rel="icon" href="/static/favicon.ico">
+    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+
     <style>
-        :root { --blue: #06173d; --red: #cc0000; --light: #f4f6f9; --gold: #ff9900; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--light); margin: 0; color: #222; }
+        :root { --bg: #f4f6f9; --text: #222; --card: #ffffff; --primary: #06173d; --accent: #cc0000; }
+        .dark-mode { --bg: #0b1120; --text: #f1f5f9; --card: #1e293b; --primary: #38bdf8; }
+
+        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; transition: 0.3s; margin: 0; }
         
-        /* Premium Ticker */
-        .ticker-wrap { background: #eeeeee; padding: 10px 0; overflow: hidden; border-bottom: 1px solid #ddd; }
-        .ticker { display: flex; white-space: nowrap; animation: marquee 40s linear infinite; }
-        .ticker-item { padding: 0 30px; border-right: 1px solid #ccc; font-size: 13px; font-weight: bold; color: var(--blue); }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* 1. Header & Dark Mode Toggle */
+        .nav { background: var(--primary); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .logo img { height: 50px; }
+        #theme-btn { cursor: pointer; background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 15px; border-radius: 20px; }
 
-        /* Navigation with Logo (Fixed Height) */
-        .nav { background: white; padding: 10px 5%; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid var(--blue); }
-        .logo-img { height: 60px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1)); }
+        /* 2. Pulse Animation for Live */
+        .live-pulse { height: 10px; width: 10px; background: #ff0000; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 70% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(0.9); opacity: 0; } }
 
-        /* Search Bar */
-        .search-area { background: white; padding: 15px; border-bottom: 1px solid #ddd; text-align: center; }
-        .search-input { width: 90%; max-width: 500px; padding: 12px 20px; border-radius: 30px; border: 1px solid #ccc; outline: none; font-size: 14px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
+        /* Layout */
+        .container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 2.5fr 1fr; gap: 20px; padding: 10px; }
+        .card { background: var(--card); border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 15px; }
 
-        /* Sports Tabs */
-        .tabs { background: white; display: flex; justify-content: center; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 1000; }
-        .tab { padding: 15px 25px; cursor: pointer; font-weight: bold; color: #555; border-bottom: 3px solid transparent; transition: 0.3s; }
-        .tab.active { color: var(--red); border-bottom: 3px solid var(--red); }
+        /* 3. WhatsApp Share Button */
+        .share-btn { background: #25D366; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
 
-        .main-grid { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 25px; padding: 0 15px; }
-        .sport-section { display: none; }
-        .sport-section.active { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* 7. Countdown Timer */
+        .countdown { background: var(--accent); color: white; text-align: center; padding: 10px; font-weight: bold; }
 
-        /* News & Score Cards */
-        .card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 5px solid transparent; transition: 0.3s; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-        .card.cricket { border-left-color: var(--blue); }
-        .card.football { border-left-color: #1d9bf0; }
-        .card.nba { border-left-color: #f57c00; }
-
-        /* Sidebar Store */
-        .sidebar-store { background: #111; color: white; padding: 25px; border-radius: 15px; text-align: center; position: sticky; top: 80px; }
-        .store-img { width: 130px; margin-bottom: 15px; border-radius: 8px; }
-        .amazon-btn { background: var(--gold); color: black; display: block; padding: 12px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 15px; }
-
-        @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <div class="ticker-item">🏏 CRICKET: Updates Live</div>
-            <div class="ticker-item">⚽ FOOTBALL: EPL & ISL News Automated</div>
-            <div class="ticker-item">🏀 NBA: Scores & Highlights Refreshing...</div>
-        </div>
-    </div>
+    <div class="countdown" id="timer">Loading Next Match Countdown...</div>
 
     <div class="nav">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=logo&style=0006&nbdigits=5&type=page&initCount=0" alt="CORE SPORTS" class="logo-img">
+        <img src="/static/apple-touch-icon.png" alt="CORE">
+        <button id="theme-btn" onclick="toggleDark()">🌙 Mode</button>
     </div>
 
-    <div class="search-area">
-        <input type="text" id="searchBox" onkeyup="liveFilter()" class="search-input" placeholder="Search live matches, teams or players...">
-    </div>
-
-    <div class="tabs">
-        <div class="tab active" onclick="changeSport('cricket', this)">CRICKET</div>
-        <div class="tab" onclick="changeSport('football', this)">FOOTBALL</div>
-        <div class="tab" onclick="changeSport('nba', this)">NBA</div>
-    </div>
-
-    <div class="main-grid">
-        <div class="left-col">
+    <div class="container">
+        <div class="main-content">
+            <h3 style="border-left: 5px solid var(--accent); padding-left: 10px;">LIVE SCOREBOARD</h3>
             
-            <div id="cricket" class="sport-section active">
-                <h3 style="margin-top: 0;">LATEST CRICKET</h3>
-                {% if cricket %}
-                    {% for m in cricket %}
-                    <div class="card cricket">
-                        <b>{{ m.matchType }}</b><br>
-                        {{ m.seriesMatches[0].seriesAdWrapper.seriesName if m.seriesMatches[0].seriesAdWrapper else "Match Ongoing" }}
-                    </div>
-                    {% endfor %}
-                {% endif %}
+            {% for match in cricket %}
+            <div class="card">
+                <span class="live-pulse"></span> <b style="color:red">LIVE</b>
+                <h4>{{ match.matchType }}</h4>
+                <p>Series: {{ match.seriesMatches[0].seriesAdWrapper.seriesName if match.seriesMatches[0].seriesAdWrapper }}</p>
+                <button class="share-btn" onclick="shareWA('{{ match.matchType }}')">WhatsApp Share 📲</button>
             </div>
+            {% endfor %}
 
-            <div id="football" class="sport-section">
-                <h3 style="margin-top: 0;">FOOTBALL HUB</h3>
-                <div class="card football">Connecting to Football servers... Coming soon.</div>
+            <h3 style="margin-top: 30px;">LATEST HEADLINES</h3>
+            {% for news in c_news %}
+            <div class="card" onclick="alert('Full news feature coming soon!')">
+                <h5 style="margin:0;">{{ news.title }}</h5>
+                <small>Source: ESPN Sports</small>
             </div>
-
-            <div id="nba" class="sport-section">
-                <h3 style="margin-top: 0;">NBA TRACKER</h3>
-                <div class="card nba">Lakers vs Warriors: Live scores soon.</div>
-            </div>
-
+            {% endfor %}
         </div>
 
-        <div class="right-col">
-            <div class="sidebar-store">
-                <h3>CORE STORE</h3>
-                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" class="store-img">
-                <p>Premium Willow Bat</p>
-                <a href="https://amzn.to/4cJsxGf" target="_blank" class="amazon-btn">BUY ON AMAZON</a>
+        <div class="sidebar">
+            <div class="card" style="text-align: center;">
+                <h5 style="color: gold;">⭐ PLAYER OF THE MONTH</h5>
+                <img src="https://via.placeholder.com/100" style="border-radius: 50%;" alt="Player">
+                <h4>Virat Kohli</h4>
+                <p style="font-size: 12px;">The GOAT continues to dominate!</p>
             </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <img src="https://hitwebcounter.com/counter/counter.php?page=10000001&style=0006&nbdigits=5&type=page&initCount=0" />
+
+            <div class="card">
+                <h5>LATEST FROM CORE NEWS</h5>
+                <iframe width="100%" src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
     <script>
-        // Tab Logic
-        function changeSport(sportId, element) {
-            let sections = document.getElementsByClassName('sport-section');
-            for (let s of sections) s.classList.remove('active');
-            let tabs = document.getElementsByClassName('tab');
-            for (let t of tabs) t.classList.remove('active');
-            document.getElementById(sportId).classList.add('active');
-            element.classList.add('active');
+        // Idea 1: Dark Mode Toggle
+        function toggleDark() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.getElementById('theme-btn');
+            btn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light" : "🌙 Dark";
         }
 
-        // Live Filter Logic
-        function liveFilter() {
-            let input = document.getElementById('searchBox').value.toLowerCase();
-            let cards = document.getElementsByClassName('card');
-            for (let c of cards) {
-                if (c.innerText.toLowerCase().includes(input)) {
-                    c.style.display = "block";
-                } else {
-                    c.style.display = "none";
-                }
-            }
+        // Idea 3: WhatsApp Share
+        function shareWA(match) {
+            const text = encodeURIComponent("Check out this live match on CORE SPORTS: " + match);
+            window.open("https://wa.me/?text=" + text);
         }
+
+        // Idea 7: Countdown Logic
+        const matchDate = new Date("March 22, 2026 20:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const diff = matchDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("timer").innerHTML = "IPL 2026 STARTS IN: " + days + "d " + hours + "h ";
+        }, 1000);
     </script>
 </body>
 </html>
