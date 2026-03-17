@@ -3,108 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORE SPORTS 24x7 | Premium</title>
+    <title>CORE SPORTS 24x7 | Sanju Samson Edition</title>
     
-    <link rel="icon" href="/static/favicon.ico">
-    <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="shortcut icon" href="/static/favicon.ico">
 
     <style>
-        :root { --bg: #f4f6f9; --text: #222; --card: #ffffff; --primary: #06173d; --accent: #cc0000; }
+        :root { --bg: #f4f6f9; --text: #222; --card: #ffffff; --primary: #06173d; --accent: #cc0000; --rr-blue: #004ba0; }
         .dark-mode { --bg: #0b1120; --text: #f1f5f9; --card: #1e293b; --primary: #38bdf8; }
 
-        body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; transition: 0.3s; margin: 0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; transition: 0.3s; margin: 0; }
         
-        /* 1. Header & Dark Mode Toggle */
-        .nav { background: var(--primary); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; color: white; }
-        .logo img { height: 50px; }
-        #theme-btn { cursor: pointer; background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 15px; border-radius: 20px; }
+        /* Navigation & Logo */
+        .nav { background: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); }
+        .logo-img { height: 55px; }
+        #theme-btn { cursor: pointer; background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; }
 
-        /* 2. Pulse Animation for Live */
-        .live-pulse { height: 10px; width: 10px; background: #ff0000; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { transform: scale(0.9); opacity: 1; } 70% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(0.9); opacity: 0; } }
+        /* Ticker & Countdown */
+        .top-bar { background: var(--accent); color: white; padding: 8px; text-align: center; font-weight: bold; font-size: 14px; }
 
         /* Layout */
         .container { max-width: 1200px; margin: 20px auto; display: grid; grid-template-columns: 2.5fr 1fr; gap: 20px; padding: 10px; }
-        .card { background: var(--card); border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .card { background: var(--card); border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 15px; border-top: 4px solid transparent; }
+        
+        /* Search Bar */
+        .search-area { text-align: center; margin: 20px 0; }
+        .search-input { width: 80%; max-width: 500px; padding: 12px 25px; border-radius: 30px; border: 1px solid #ccc; outline: none; }
 
-        /* 3. WhatsApp Share Button */
-        .share-btn { background: #25D366; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+        /* Live Pulse */
+        .live-pulse { height: 10px; width: 10px; background: red; border-radius: 50%; display: inline-block; margin-right: 5px; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
 
-        /* 7. Countdown Timer */
-        .countdown { background: var(--accent); color: white; text-align: center; padding: 10px; font-weight: bold; }
+        /* Sidebar Elements */
+        .spotlight-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--rr-blue); margin: 15px 0; }
+        .share-wa { background: #25D366; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; font-size: 13px; }
 
         @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <div class="countdown" id="timer">Loading Next Match Countdown...</div>
+    <div class="top-bar" id="countdown">IPL 2026 Countdown Loading...</div>
 
     <div class="nav">
-        <img src="/static/apple-touch-icon.png" alt="CORE">
-        <button id="theme-btn" onclick="toggleDark()">🌙 Mode</button>
+        <img src="/static/apple-touch-icon.png" alt="CORE SPORTS" class="logo-img">
+        <button id="theme-btn" onclick="toggleDark()">🌙 Dark Mode</button>
+    </div>
+
+    <div class="search-area">
+        <input type="text" id="searchInput" onkeyup="filterCards()" class="search-input" placeholder="Search matches or news...">
     </div>
 
     <div class="container">
         <div class="main-content">
             <h3 style="border-left: 5px solid var(--accent); padding-left: 10px;">LIVE SCOREBOARD</h3>
             
-            {% for match in cricket %}
-            <div class="card">
-                <span class="live-pulse"></span> <b style="color:red">LIVE</b>
-                <h4>{{ match.matchType }}</h4>
-                <p>Series: {{ match.seriesMatches[0].seriesAdWrapper.seriesName if match.seriesMatches[0].seriesAdWrapper }}</p>
-                <button class="share-btn" onclick="shareWA('{{ match.matchType }}')">WhatsApp Share 📲</button>
-            </div>
-            {% endfor %}
+            {% if cricket %}
+                {% for match in cricket %}
+                <div class="card" style="border-top-color: var(--primary);">
+                    <span class="live-pulse"></span> <b style="color:red">LIVE</b>
+                    <h4>{{ match.matchType }}</h4>
+                    <p>{{ match.seriesMatches[0].seriesAdWrapper.seriesName if match.seriesMatches[0].seriesAdWrapper else "Ongoing Match" }}</p>
+                    <button class="share-wa" onclick="shareMatch('{{ match.matchType }}')">Share on WhatsApp 📲</button>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="card">Connecting to stadium feeds... Please wait.</div>
+            {% endif %}
 
-            <h3 style="margin-top: 30px;">LATEST HEADLINES</h3>
+            <h3 style="margin-top: 30px; border-left: 5px solid var(--rr-blue); padding-left: 10px;">LATEST HEADLINES</h3>
             {% for news in c_news %}
-            <div class="card" onclick="alert('Full news feature coming soon!')">
-                <h5 style="margin:0;">{{ news.title }}</h5>
-                <small>Source: ESPN Sports</small>
+            <div class="card" style="cursor: pointer;" onclick="window.open('{{ news.link }}', '_blank')">
+                <h5 style="margin:0; color: var(--primary);">{{ news.title }}</h5>
+                <p style="font-size: 13px; color: #666; margin-top: 5px;">{{ news.summary[:100] }}...</p>
             </div>
             {% endfor %}
         </div>
 
         <div class="sidebar">
-            <div class="card" style="text-align: center;">
-                <h5 style="color: gold;">⭐ PLAYER OF THE MONTH</h5>
-                <img src="https://via.placeholder.com/100" style="border-radius: 50%;" alt="Player">
-                <h4>Virat Kohli</h4>
-                <p style="font-size: 12px;">The GOAT continues to dominate!</p>
+            <div class="card" style="text-align: center; border-top-color: var(--rr-blue);">
+                <h5 style="color: #ff4081; margin: 0;">⭐ PLAYER OF THE MONTH</h5>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf5E8U2Y1V-V7_vM0a2zQo3Q6zU-F3_G_Kiw&s" class="spotlight-img" alt="Sanju Samson">
+                <h3 style="margin: 5px 0; color: var(--rr-blue);">Sanju Samson</h3>
+                <p style="font-size: 12px; font-weight: bold;">RR Captain & Finisher</p>
+                <div style="background: #f0f4f8; padding: 8px; border-radius: 8px; font-size: 11px; color: #333;">
+                    Lead Rajasthan Royals to 3 consecutive wins this month!
+                </div>
             </div>
 
-            <div class="card">
-                <h5>LATEST FROM CORE NEWS</h5>
+            <div class="card" style="border-top-color: red;">
+                <h5 style="margin-top: 0;">LATEST FROM CORE NEWS</h5>
                 <iframe width="100%" src="https://www.youtube.com/embed/live_stream?channel=YOUR_CHANNEL_ID" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="card" style="text-align: center; background: #111; color: white;">
+                <h5 style="color: gold;">CORE STORE</h5>
+                <img src="https://m.media-amazon.com/images/I/41-lS-5N8vL._SX679_.jpg" style="width: 80px;">
+                <p style="font-size: 11px;">Professional Willow Bat</p>
+                <a href="https://amzn.to/4cJsxGf" target="_blank" style="background: gold; color: black; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; display: block;">Buy on Amazon</a>
             </div>
         </div>
     </div>
 
     <script>
-        // Idea 1: Dark Mode Toggle
+        // 1. Dark Mode Toggle
         function toggleDark() {
             document.body.classList.toggle('dark-mode');
             const btn = document.getElementById('theme-btn');
-            btn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light" : "🌙 Dark";
+            btn.innerText = document.body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
         }
 
-        // Idea 3: WhatsApp Share
-        function shareWA(match) {
-            const text = encodeURIComponent("Check out this live match on CORE SPORTS: " + match);
+        // 3. WhatsApp Share
+        function shareMatch(matchName) {
+            const text = encodeURIComponent("Check Live Score on CORE SPORTS: " + matchName);
             window.open("https://wa.me/?text=" + text);
         }
 
-        // Idea 7: Countdown Logic
-        const matchDate = new Date("March 22, 2026 20:00:00").getTime();
+        // 7. Countdown Timer (IPL 2026)
+        const targetDate = new Date("March 22, 2026 20:00:00").getTime();
         setInterval(function() {
             const now = new Date().getTime();
-            const diff = matchDate - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("timer").innerHTML = "IPL 2026 STARTS IN: " + days + "d " + hours + "h ";
+            const gap = targetDate - now;
+            const d = Math.floor(gap / (1000 * 60 * 60 * 24));
+            const h = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("countdown").innerHTML = "IPL 2026 BEGINS IN: " + d + " Days " + h + " Hours";
         }, 1000);
+
+        // Live Search Filter
+        function filterCards() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('card');
+            for (let card of cards) {
+                card.style.display = card.innerText.toLowerCase().includes(input) ? "block" : "none";
+            }
+        }
     </script>
 </body>
 </html>
